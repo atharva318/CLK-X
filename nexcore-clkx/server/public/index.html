@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEXCORE — CLK-X Dashboard</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">NEXCORE <span class="brand-sub">/ CLK-X</span></div>
+  <div class="status" id="status">no data loaded yet</div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Range</h2>
+    <div class="row">
+      <label>Device ID <input id="deviceId" placeholder="e.g. clk-x-01" /></label>
+      <label>From <input id="fromInput" type="datetime-local" /></label>
+      <label>To <input id="toInput" type="datetime-local" /></label>
+      <button id="loadBtn">Load</button>
+      <button id="last24hBtn">Last 24h</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Motion (MPU6050 — accel magnitude)</h2>
+    <canvas id="motionChart" height="90"></canvas>
+  </section>
+
+  <section class="panel">
+    <h2>Heart rate &amp; SpO₂ (MAX30100)</h2>
+    <canvas id="hrChart" height="90"></canvas>
+  </section>
+
+  <section class="panel">
+    <h2>Pressure, temperature &amp; altitude (BMP280)</h2>
+    <canvas id="envChart" height="90"></canvas>
+  </section>
+
+  <section class="panel two-col">
+    <div>
+      <h2>Label a spike as an activity</h2>
+      <p class="hint">Pick a from/to range above that covers the spike, preview its signature, then save it with a name. Future spikes that look similar will be auto-labeled the same way.</p>
+      <div class="row">
+        <button id="previewBtn">Preview selected range</button>
+      </div>
+      <pre id="previewOut" class="preview"></pre>
+      <div class="row">
+        <label>Name <input id="activityName" placeholder="running / walking / badminton..." /></label>
+        <label>Color <input id="activityColor" type="color" value="#38bdf8" /></label>
+        <button id="saveActivityBtn">Save as activity</button>
+      </div>
+    </div>
+    <div>
+      <h2>Saved activities</h2>
+      <table class="data-table" id="activitiesTable">
+        <thead><tr><th></th><th>Name</th><th>Accel mean</th><th>HR mean</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel two-col">
+    <div>
+      <h2>Buttons</h2>
+      <p class="hint">Assigned functions are picked up by the watch on its next sync.</p>
+      <div id="buttonsForm"></div>
+    </div>
+    <div>
+      <h2>Thresholds</h2>
+      <p class="hint">Drives the watch's red/green status LED.</p>
+      <div id="settingsForm"></div>
+    </div>
+  </section>
+</main>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
